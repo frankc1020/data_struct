@@ -6,6 +6,7 @@ package com.atguigu.linkedList;
  * @projectName data_struct
  * @description: TODO
  * @date 2020/8/11 17:25
+ * josepfu 约瑟夫环问题
  */
 public class CircleSingleLinkedListDemo {
     public static void main(String[] args) {
