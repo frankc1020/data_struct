@@ -22,6 +22,7 @@ public class ArrayStackDemo {
         System.out.println(a);
     }
 }
+
 class ArrayStack{
     private int maxSize;//栈空间
     private int[] stack;//使用数组模拟栈
