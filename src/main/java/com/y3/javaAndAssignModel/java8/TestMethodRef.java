@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -29,11 +30,53 @@ import java.util.function.Supplier;
  *   ①Lambda体中调用方法参数列表与返回值类型，要与函数式接口中抽象方法的函数列表和返回值类型保持一致
  *   ②若Lambda参数列表中第一参数是实例方法的调用者，而第二个参数是实例方法的参数时，可以使用className:method
  *
+ * 二、构造器引用：
+ *    格式：
+ *       ClassName::new
+ *
+ *       注意：需要调用的构造器的参数列表要与函数式接口中抽象方法的参数列表保持一致。
+ *
+ * 三、数组引用
+ *    Type[]::new
  *
  *
  *
  */
 public class TestMethodRef {
+
+    //数组引用
+    @Test
+    public void test5(){
+        Function<Integer,String[]> sup = (x)->new String[x];
+
+        Function<Integer,String[]> sup1 = String[]::new;
+        String[] apply = sup1.apply(10);
+        System.out.println(apply.length);
+    }
+
+    //构造器引用
+
+    /**
+     * 需要调用的构造器的参数列表要与函数式接口中抽象方法的参数列表保持一致。
+     */
+    @Test
+    public void test4(){
+        Supplier<Employee> sup = ()-> new Employee();
+        Employee employee = sup.get();
+        System.out.println(employee);
+        
+        Supplier<Employee> sup1 = Employee::new;
+        Employee employee1 = sup1.get();
+        System.out.println(employee1);
+
+        Function<String,Employee> fun = (name)->new Employee(name);
+        Employee e1 = fun.apply("jack");
+        System.out.println(e1);
+
+        Function<String,Employee> fun1 = Employee::new;
+        Employee e2 = fun1.apply("zhangsan");
+        System.out.println(e2);
+    }
 
     //对象::实例方法名
     @Test
