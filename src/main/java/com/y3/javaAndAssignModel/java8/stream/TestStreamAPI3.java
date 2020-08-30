@@ -3,9 +3,8 @@ package com.y3.javaAndAssignModel.java8.stream;
 import com.y3.javaAndAssignModel.java8.Employee;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author admin
@@ -61,4 +60,81 @@ public class TestStreamAPI3 {
         long count = emps.stream().count();
         System.out.println(count);
     }
+
+    /**
+     * 归约：
+     *  reduce(T identity,BinaryOperator) / reduce(BinaryOperator)--可以将流中的元素反复结合起来，得到一个值
+     */
+    @Test
+    public void test2(){
+        Optional<Double> reduce = emps.stream()
+                .map(Employee::getSalary)
+                .reduce(Double::sum);
+//                .reduce(0, (x, y) -> x + y);
+
+        System.out.println(reduce.get());
+    }
+    /**
+     * 收集：
+     *    collect--将流转换为其他形式。接收一个Collector接口的实现，用于给Stream中元素做汇总的方法
+     */
+    @Test
+    public void test3(){
+        List<String> list = emps.stream()
+                .map(Employee::getName)
+                .collect(Collectors.toList());
+        list.forEach(System.out::println);
+
+        System.out.println("---------------------");
+
+        HashSet<String> hashSet = emps.stream()
+                .map(Employee::getName)
+                .collect(Collectors.toCollection(HashSet::new));
+        hashSet.forEach(System.out::println);
+    }
+
+    @Test
+    public void test4(){
+        Long count = emps.stream().collect(Collectors.counting());
+        System.out.println(count);
+
+        Double avg = emps.stream().collect(Collectors.averagingDouble(Employee::getSalary));
+        System.out.println(avg);
+
+        Optional<Employee> maxEmp = emps.stream().collect(Collectors.maxBy((x, y) -> Integer.compare(x.getAge(), y.getAge())));
+        System.out.println(maxEmp.get());
+
+        Optional<Double> min = emps.stream()
+                .map(Employee::getSalary)
+                .collect(Collectors.minBy(Double::compare));
+        System.out.println(min.get());
+    }
+
+    /**
+     * 分组
+     */
+    @Test
+    public void test5(){
+        Map<Employee.Status, List<Employee>> collect = emps.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus));
+        System.out.println(collect);
+
+        System.out.println("---------------------------------");
+
+        Map<Employee.Status, Map<String, List<Employee>>> map = emps.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((x) -> {
+                    if (((Employee) x).getAge() < 30) {
+                        return "青年";
+                    } else if (((Employee) x).getAge() < 50) {
+                        return "中年";
+                    } else {
+                        return "老年";
+                    }
+                })));
+        System.out.println(map);
+    }
+
+
+
+
 }
