@@ -15,8 +15,25 @@ import java.util.Stack;
  */
 public class PolandNotation {
     public static void main(String[] args) {
-        
-        String expression = "4*5-8+60+8/2";
+
+        //完成将一个中缀表达式转成后缀表达式的功能
+        //说明
+        //1. 1+((2+3)*4)-5 => 转成 1 2 3 + 4 * + 5 -
+        //2. 因为直接对str进行操作，不方便，因此先将 "1+((2+3)*4)-5" => 中缀的表达式对应的List
+        //即"1+((2+3)*4)-5" => ArrayList [1,+,(,(,2,+,3,),*,4,),-,5]
+        //3. 将得到的中缀表达式对应的List => 后缀表达式对应的List
+        // 即 ArrayList[1,+,(,(,2,+,3,),*,4,),-,5] => ArrayList [1,2,3,+,4,*,+,5,-]
+
+        String expression1 = "1+((2+3)*4)-5";
+        String expression2 = "11+((22+33)*44)-55";
+        List<String> strList1 = toInfixExpresseion(expression2);
+        System.out.println(strList1);
+        List<String> list = parseSuffixExpressionList(strList1);
+        System.out.println("中缀表达式转换后缀表达式："+list);//[1, 2, 3, +, 4, *, +, 5, -]
+
+        System.out.println("expression2:"+ calculate(list));
+
+       /* String expression = "4*5-8+60+8/2";
         List<String> strList = toInfixExpresseion(expression);
         System.out.println(strList);
 
@@ -32,7 +49,7 @@ public class PolandNotation {
         //2.将ArrayList 传递给一个方法，遍历ArrayList，配合栈，完后计算
         List<String> list = getListString(suffixExpression);
         int res = calculate(list);
-        System.out.println("计算结果："+res);
+        System.out.println("计算结果："+res);*/
 
     }
     //将中缀表达式转成对应的List
@@ -100,5 +117,69 @@ public class PolandNotation {
             }
         }
         return Integer.parseInt(stack.pop());
+    }
+
+    public static List<String> parseSuffixExpressionList(List<String> list){
+        Stack<String> s1 = new Stack<>();
+
+        List<String> s2 = new ArrayList<>();
+
+        for(String item : list){
+            if(item.matches("\\d+")){
+                s2.add(item);
+            }else if(item.equals("(")){
+                s1.push(item);
+            }else if(item.equals(")")){
+                //如果是右括号"）"，则依次弹出s1栈顶的运算符，并压入s2，直到压入s2，直到遇到右括号为止
+                while(!s1.peek().equals("(")){
+                    s2.add(s1.pop());
+                }
+                s1.pop();//将"（"弹出s1栈移除左括号
+            }else{
+                //当item的优先级小于等于s1栈顶运算符，将s1栈顶的运算符弹出并加入到s2中，再次转到（4.1）与s1中新的栈顶运算符相比较
+                while(s1.size() > 0 &&  Operation.getValue(s1.peek()) >= Operation.getValue(item)){
+                    s2.add(s1.pop());
+                }
+                //将item压入栈
+                s1.push(item);
+            }
+        }
+
+        while (s1.size() > 0){
+            s2.add(s1.pop());
+        }
+
+        return s2;
+    }
+
+}
+
+class  Operation{
+    private static  final int ADD = 1;
+    private static  final int SUB = 1;
+    private static  final int MUL = 2;
+    private static  final int DIV = 2;
+
+    //写一个方法，返回对应的优先级数字
+    public static int getValue(String operation){
+        int result = 0;
+        switch (operation){
+            case "+":
+                result = ADD;
+                break;
+            case "-":
+                result = SUB;
+                break;
+            case "*":
+                result = MUL;
+                break;
+            case "/":
+                result = DIV;
+                break;
+            default:
+                System.out.println("没有对应的运算符");
+                break;
+        }
+        return result;
     }
 }
