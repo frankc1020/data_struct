@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -51,16 +52,28 @@ public class TestStreamAPI2 {
     @Test
     public void test2(){
 
-        emps.stream()
-                .filter((x) -> {
+        List<Employee> collect = emps.stream()
+                /*.filter((x) -> {
                     System.out.println("Lambda API 过滤");
                     return x.getSalary() > 5000;
 
-                })
-//                .skip(2)
-//                .limit(2)
-                .distinct()
-                .forEach(System.out::println);
+                })*/
+                .skip(10)
+                .limit(10)
+                .collect(Collectors.toList());
+        System.out.println(collect);
+//                .distinct()
+//                .forEach(System.out::println);
+
+        Integer [] myArray = { 1, 2, 3 };
+        List myList = Arrays.stream(myArray).collect(Collectors.toList());
+        System.out.println(myList);
+//基本类型也可以实现转换（依赖boxed的装箱操作）
+        int [] myArray2 = { 1, 2, 3 };
+        myList = Arrays.stream(myArray2).boxed().collect(Collectors.toList());
+        System.out.println(myList);
+
+
     }
 
     /**
