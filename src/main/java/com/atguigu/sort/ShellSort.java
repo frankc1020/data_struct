@@ -12,7 +12,8 @@ import java.util.Arrays;
 public class ShellSort {
     public static void main(String[] args) {
         int arr[] = {8,9,1,7,2,3,5,4,6,0};
-        shellSort(arr);
+//        shellSort(arr);
+        shellSort2(arr);
 
     }
     //希尔排序，在插入时交换
@@ -82,5 +83,29 @@ public class ShellSort {
             }
         }
         System.out.println("排序后的数组：" + Arrays.toString(arr));*/
+    }
+
+    //希尔排序，优化交换法-----》移位法
+    public static  void shellSort2(int[] arr){
+
+        int temp;
+        int count = 0;
+        //根据前面的逐步分析，使用循环处理
+        for(int gap = arr.length / 2;gap > 0;gap /= 2){
+            for (int i = gap; i < arr.length; i++) {
+                //遍历各组中所有的元素，工gap组，每组有arr.length/gap 个元素，步长gap
+                int j =i;
+                temp = arr[j];
+                if(arr[j] < arr[j-gap]){
+                    while(j-gap >=0 && temp < arr[j-gap] ){
+                        arr[j] = arr[j-gap];
+                        j -= gap;
+                    }
+                    arr[j] = temp;
+                }
+            }
+
+        }
+        System.out.println("第"+(++count) +"轮排序后的数组：" + Arrays.toString(arr));
     }
 }
