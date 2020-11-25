@@ -115,23 +115,27 @@ public class TestStreamAPI3 {
      */
     @Test
     public void test5(){
-        Map<Employee.Status, List<Employee>> collect = emps.stream()
-                .collect(Collectors.groupingBy(Employee::getStatus));
-        System.out.println(collect);
+//        Map<Employee.Status, List<Employee>> collect = emps.stream()
+//                .collect(Collectors.groupingBy(Employee::getStatus));
+//        System.out.println(collect);
+//
+//        System.out.println("---------------------------------");
+//
+//        Map<Employee.Status, Map<String, List<Employee>>> map = emps.stream()
+//                .collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((x) -> {
+//                    if (((Employee) x).getAge() < 30) {
+//                        return "青年";
+//                    } else if (((Employee) x).getAge() < 50) {
+//                        return "中年";
+//                    } else {
+//                        return "老年";
+//                    }
+//                })));
+//        System.out.println(map);
 
-        System.out.println("---------------------------------");
+        Map<Integer, List<Employee>> collect = emps.stream().collect(Collectors.groupingBy(Employee::getId));
 
-        Map<Employee.Status, Map<String, List<Employee>>> map = emps.stream()
-                .collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((x) -> {
-                    if (((Employee) x).getAge() < 30) {
-                        return "青年";
-                    } else if (((Employee) x).getAge() < 50) {
-                        return "中年";
-                    } else {
-                        return "老年";
-                    }
-                })));
-        System.out.println(map);
+
     }
 
 
