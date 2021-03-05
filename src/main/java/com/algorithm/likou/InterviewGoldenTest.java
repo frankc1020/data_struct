@@ -46,11 +46,13 @@ public class InterviewGoldenTest {
         int[] returnNum = new int[2];
         Map<Integer,Integer> map = new HashMap<>();
         for(int i=0;i<nums.length;i++){
+            //这一步是判断map里面是否包含数组中的数
             if(map.containsKey(nums[i])){
                 returnNum[0] = i;
                 returnNum[1] = map.get(nums[i]);
                 break;
             }
+            //拿目标数减去当前数所得差，判断这个差值是否在数组中存在
             map.put(target-nums[i],i);
         }
         return returnNum;
