@@ -1,9 +1,6 @@
 package com.algorithm.likou;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author admin
@@ -130,9 +127,252 @@ public class InterviewGoldenTestTwo {
         }
     }
 
+    /**
+     * 350 两个数组的交集
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public static int[] intersect(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int p1 = nums1.length-1;
+        int p2 = nums2.length -1;
+        int tail = p1<p2 ? p1:p2;
+        int index= 0;
+        int[] result = new int[tail+1];
+        while(p1>=0 || p2>=0){
+            if((p1==-1) || (p2 == -1)){
+                return Arrays.copyOfRange(result, 0, index);
+            }else if(nums1[p1] > nums2[p2]){
+                p1--;
+            }else if(nums1[p1] < nums2[p2]){
+                p2--;
+            }else{
+                result[index] = nums1[p1];
+                index++;
+                p1--;
+                p2--;
+            }
+        }
+        return Arrays.copyOfRange(result, 0, index);
+    }
+
+    /**
+     * 121。 买卖股票的最佳时机
+     * @param prices
+     * @return
+     */
+    public static int maxProfit(int[] prices) {
+        int max = 0;
+        int minIndex = 0;
+        int maxIndex = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if(prices[minIndex] > prices[i]){
+                minIndex = i;
+            }else if(prices[i] - prices[minIndex] > max){
+                maxIndex = i;
+                max = prices[i] - prices[minIndex];
+            }
+        }
+        return max < 0 ? 0 : max;
+    }
+
+    /**
+     * 118. 杨辉三角
+     * @param numRows
+     * @return
+     */
+    public static List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> iList = new ArrayList<>();
+            for (int j = 0; j <=i; j++) {
+                if(j==0 || j==i){
+                    iList.add(1);
+                }else{
+                    iList.add(result.get(i-1).get(j-1) + result.get(i-1).get(j));
+                }
+            }
+            result.add(iList);
+        }
+        return result;
+     }
+
+    /**
+     * 556 重塑矩阵
+     * @param mat
+     * @param r
+     * @param c
+     * @return
+     */
+    public int[][] matrixReshape(int[][] mat, int r, int c) {
+        int row = mat.length;
+        int col = mat[0].length;
+        if((row*col) <= ((r-1)*c) || (row*col) <= (r*(c-1))){
+            return mat;
+        }
+        int[][] result = new int[r][c];
+        int r1=0;
+        int c1=0;
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[0].length; j++) {
+                if (c1<c) {
+                    result[r1][c1++] = mat[i][j];
+                }else{
+                    c1=0;
+                    r1++;
+                }
+            }
+        }
+        return mat;
+    }
+
+    /**
+     * 36,有效数独
+     * @param board
+     * @return
+     */
+    public static boolean isValidSudoku(char[][] board) {
+        Map<Integer,Integer>[] rows = new HashMap[9];
+        Map<Integer,Integer>[] cols = new HashMap[9];
+        Map<Integer,Integer>[] boxs = new HashMap[9];
+
+        for (int i = 0; i < 9; i++) {
+            rows[i] = new HashMap<Integer, Integer>();
+            cols[i] = new HashMap<Integer, Integer>();
+            boxs[i] = new HashMap<Integer, Integer>();
+        }
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if(board[i][j] != '.'){
+                    int num = (int)board[i][j];
+                    rows[i].put(num,rows[i].getOrDefault(num,0)+1);
+                    cols[j].put(num,cols[j].getOrDefault(num,0)+1);
+                    int box_i = (i/3)*3 + (j/3);
+                    boxs[box_i].put(num,boxs[box_i].getOrDefault(num,0)+1);
+
+                    if(rows[i].get(num) > 1 || cols[j].get(num) > 1 || boxs[box_i].get(num) > 1) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 387. 字符串中的第一个唯一字符
+     * @param s
+     * @return
+     */
+    public static int firstUniqChar(String s) {
+        int num = -1;
+        Map<String,Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            String c = s.charAt(i)+"";
+            int m = (map.get(c)== null) ? 0 : map.get(c);
+            map.put(c,m+1);
+        }
+        for (int i = 0; i < s.length(); i++) {
+            String c = s.charAt(i)+"";
+            if(map.get(c) == 1){
+                num = i;
+                return num;
+            }
+        }
+        return num;
+    }
+
+    /**
+     * 383  赎金信 使用HashMap
+     * @param ransomNote
+     * @param magazine
+     * @return
+     */
+    public boolean canConstruct(String ransomNote, String magazine) {
+        Map<Character,Integer> map = new HashMap<>();
+        for (int i = 0; i < magazine.length(); i++) {
+            char c = magazine.charAt(i);
+            int num = map.get(c)== null ? 0 : map.get(c);
+            map.put(c,num+1);
+        }
+        boolean flag = false;
+        for (int i = 0; i < ransomNote.length(); i++) {
+            char r = ransomNote.charAt(i);
+            if(map.containsKey(r)){
+                if(map.get(r) == 0){
+                    map.remove(r);
+                    return flag;
+                }
+                map.put(r,map.get(r)-1);
+            }else{
+                return flag;
+            }
+        }
+        flag = true;
+        return flag;
+    }
+
+    /**
+     * 383 赎金信 使用数组 即假定两个字符串都是小写字母
+     * @param ransomNote
+     * @param magazine
+     * @return
+     */
+    public boolean canConstruct2(String ransomNote, String magazine) {
+       int[] arr = new int[26];
+        for (int i = 0; i < magazine.length(); i++) {
+            int c = magazine.charAt(i) - 'a';
+            arr[c]++;
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            int c = ransomNote.charAt(i) - 'a';
+            if(arr[c] > 0){
+                arr[c]--;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 242. 有效的字母异位词 使用数组解决
+     * @param s
+     * @param t
+     * @return
+     */
+    public static boolean isAnagram(String s, String t) {
+        int[] arr1 = new int[26];
+        int[] arr2 = new int[26];
+        if(s.length() != t.length()){
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            int c = s.charAt(i) - 'a';
+            arr1[c]++;
+        }
+        for (int i = 0; i < t.length(); i++) {
+            int c = t.charAt(i) - 'a';
+            arr2[c]++;
+        }
+        for (int i = 0; i < 26; i++) {
+            if(arr1[i] != arr2[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 //        int[] nums =  {-2,1,-3,4,-1,2,1,-5,4};
-        int[] nums =  {-2,1};
-        maxSubArray2(nums);
+//        int[] nums1 =  {1,2,2,1};
+//        int[] nums2 =  {2,2};
+//        intersect(nums1,nums2);
+
+        System.out.println(isAnagram("nl","cx"));
+
     }
 }
