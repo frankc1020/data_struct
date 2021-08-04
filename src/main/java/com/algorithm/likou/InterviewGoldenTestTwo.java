@@ -366,13 +366,133 @@ public class InterviewGoldenTestTwo {
         return true;
     }
 
+    /**
+     * 203. 移除链表元素
+     * @param head
+     * @param val
+     * @return
+     */
+    public static ListNode removeElements(ListNode head, int val) {
+        ListNode temp = new ListNode();
+        while(head != null){
+            if(head.val == val){
+                head = head.next;
+            }else{
+                temp = head;
+                break;
+            }
+        }
+
+
+        while(temp != null && temp.next != null){
+            if(temp.next.val == val){
+                if(temp.next.next != null){
+                    temp.next = temp.next.next;
+                }else{
+                    temp.next = null;
+                    break;
+                }
+            }else{
+                temp = temp.next;
+            }
+
+        }
+
+        return head;
+    }
+
+    /**
+     * 21. 合并两个有序链表
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1 == null){
+            return l2;
+        }
+        if(l2 == null){
+            return l1;
+        }
+        ListNode head,temp,temp1,temp2;
+        if(l1.val < l2.val){
+            head = l1;
+            temp1 = l1.next;
+            temp2 = l2;
+            temp = head;
+        }else{
+            head = l2;
+            temp1 = l1;
+            temp2 = l2.next;
+            temp = head;
+        }
+        while(temp1 != null && temp2 != null){
+            if(temp1.val < temp2.val){
+                temp.next = temp1;
+                temp1 = temp1.next;
+            }else{
+                temp.next = temp2;
+                temp2 = temp2.next;
+            }
+            temp = temp.next;
+        }
+        if(temp1 == null && temp2 != null){
+            temp.next = temp2;
+        }
+        if(temp1 != null && temp2 == null){
+            temp.next = temp1;
+        }
+        return head;
+    }
+
+    /**
+     *206. 反转链表
+     * @param head
+     * @return
+     */
+    public static ListNode reverseList(ListNode head) {
+        if(head == null){
+            return null;
+        }
+        ListNode headNew = null;
+//        ListNode headNew = new ListNode();
+        ListNode temp = head;
+        ListNode cur;
+        while(temp != null){
+            cur = temp;
+            temp = temp.next;
+            cur.next = headNew;
+            headNew = cur;
+        }
+        return headNew;
+    }
+
     public static void main(String[] args) {
 //        int[] nums =  {-2,1,-3,4,-1,2,1,-5,4};
 //        int[] nums1 =  {1,2,2,1};
 //        int[] nums2 =  {2,2};
 //        intersect(nums1,nums2);
 
-        System.out.println(isAnagram("nl","cx"));
+//        System.out.println(isAnagram("nl","cx"));
+
+        ListNode l1 = new ListNode(1);
+        ListNode l2 = new ListNode(2);
+        ListNode l3 = new ListNode(3);
+        ListNode l4 = new ListNode(4);
+        ListNode l5 = new ListNode(5);
+        l1.next = l2;
+        l2.next = l3;
+        l3.next = l4;
+        l4.next = l5;
+
+        reverseList(l1);
 
     }
+}
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode() {}
+    ListNode(int val) { this.val = val; }
+    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
