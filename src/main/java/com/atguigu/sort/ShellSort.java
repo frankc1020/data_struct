@@ -11,10 +11,18 @@ import java.util.Arrays;
  */
 public class ShellSort {
     public static void main(String[] args) {
-        int arr[] = {8,9,1,7,2,3,5,4,6,0};
-//        shellSort(arr);
-        shellSort2(arr);
-
+//        int arr[] = {8,9,1,7,2,3,5,4,6,0};
+////        shellSort(arr);
+////        shellSort2(arr);
+////        shellTest2(arr);
+//
+//        Boolean flag = null;
+//        System.out.println(flag);
+        int arr[] = {25,84,21,47,15,27,68,35,20};
+        shellSort(arr);
+//        int j=0;
+//        j=j++ + ++j + j++ + j++;
+//        System.out.println(j);
     }
     //希尔排序，在插入时交换
     public static  void shellSort(int[] arr){
@@ -107,5 +115,43 @@ public class ShellSort {
 
         }
         System.out.println("第"+(++count) +"轮排序后的数组：" + Arrays.toString(arr));
+    }
+
+
+
+
+    public static  void shellTest1(int[] arr){
+        int temp = 0;
+        for (int gap = arr.length/2; gap >0 ; gap/=2) {
+            for (int i = gap; i <arr.length; i++) {
+                for (int j = i-gap; j >=0; j-=gap) {
+                    if(arr[j] > arr[j+gap]){
+                        temp = arr[j];
+                        arr[j] = arr[j+gap];
+                        arr[j+gap] = temp;
+                    }
+                }
+
+            }
+        }
+        System.out.println("交换法排序之后的数据："+Arrays.toString(arr));
+    }
+
+    public static  void shellTest2(int[] arr){
+        int temp = 0;
+        for (int gap = arr.length/2; gap >0 ; gap/=2) {
+            for (int i = gap; i <arr.length; i++) {
+                int j=i;
+                temp = arr[j];
+                if(arr[j] < arr[j-gap]){
+                    while(j-gap>=0 && temp < arr[j-gap]){
+                        arr[j] = arr[j-gap];
+                        j-=gap;
+                    }
+                }
+                arr[j] = temp;
+            }
+        }
+        System.out.println("交换法排序之后的数据："+Arrays.toString(arr));
     }
 }
