@@ -467,6 +467,90 @@ public class InterviewGoldenTestTwo {
         return headNew;
     }
 
+    /**
+     * 28. 实现 strStr()
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    public int strStr(String haystack, String needle) {
+        int index = -1;
+        if(needle == null || needle ==""){
+            return 0;
+        }
+        if(haystack == null || haystack == ""){
+            return index;
+        }
+        int h=0,n=0,i=0;
+        while ( i < haystack.length()) {
+            char ch = haystack.charAt(i);
+            if(n<=needle.length()-1){
+                char cn = needle.charAt(n);
+                if(ch == cn){
+                    h++;
+                    n++;
+                    index = i;
+                }else{
+                    i=i-h;
+                    h=0;
+                    n=0;
+                }
+            }else{
+                break;
+            }
+            i++;
+        }
+        if(n== needle.length()){
+            return index-n+1;
+        }else{
+            index = -1;
+        }
+        return index;
+    }
+    public static int strStr2(String haystack, String needle) {
+        if(needle == null || needle ==""){
+            return 0;
+        }
+        if(haystack == null || haystack == ""){
+            return -1;
+        }
+        char[] hay = haystack.toCharArray();
+        char[] need = needle.toCharArray();
+        for (int i = 0; i < hay.length; i++) {
+            int a=i,b=0;
+            while (a+b<= hay.length && b<need.length) {
+                if(hay[a] != need[b]){
+                   break;
+                }
+                a++;
+                b++;
+            }
+            if(b == need.length){
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * 263 丑数
+     * @param n
+     * @return
+     */
+    public static boolean isUgly(int n) {
+        if(n<=0){
+            return false;
+        }
+        int[] arr = {2,3,5};
+        for (int item : arr) {
+            while(n % item == 0){
+                n /= item;
+            }
+        }
+        return n==1;
+    }
+
     public static void main(String[] args) {
 //        int[] nums =  {-2,1,-3,4,-1,2,1,-5,4};
 //        int[] nums1 =  {1,2,2,1};
@@ -475,7 +559,7 @@ public class InterviewGoldenTestTwo {
 
 //        System.out.println(isAnagram("nl","cx"));
 
-        ListNode l1 = new ListNode(1);
+        /*ListNode l1 = new ListNode(1);
         ListNode l2 = new ListNode(2);
         ListNode l3 = new ListNode(3);
         ListNode l4 = new ListNode(4);
@@ -485,7 +569,9 @@ public class InterviewGoldenTestTwo {
         l3.next = l4;
         l4.next = l5;
 
-        reverseList(l1);
+        reverseList(l1);*/
+
+        System.out.println( strStr2("",""));
 
     }
 }

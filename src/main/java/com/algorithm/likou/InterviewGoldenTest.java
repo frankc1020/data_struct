@@ -974,6 +974,38 @@ public class InterviewGoldenTest {
         return result;
     }
 
+    /**
+     * 27. 移除元素
+     * @param nums
+     * @param val
+     * @return
+     */
+    public static int removeElement(int[] nums, int val) {
+        int m = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] != val){
+                nums[m] = nums[i];
+                m++;
+            }
+        }
+        return m;
+    }
+
+    public static int removeElement2(int[] nums, int val) {
+        int left = 0;
+        int right = nums.length;
+       while(left < right){
+            if(nums[left] == val){
+                nums[left] = nums[right];
+                right--;
+            }else{
+                left++;
+            }
+       }
+        return left;
+    }
+
+
     public static void main(String[] args) {
 //        int[] cost = new int[]{10,15};
 //        System.out.println(minCostClimbingStairs(cost));
