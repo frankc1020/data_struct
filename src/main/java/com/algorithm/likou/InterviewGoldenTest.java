@@ -1005,6 +1005,124 @@ public class InterviewGoldenTest {
         return left;
     }
 
+    /**
+     * 35. 搜索插入位置
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int searchInsert(int[] nums, int target) {
+        int index = -1;
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] == target){
+                index = i;
+                return index;
+            }
+        }
+        if(index == -1){
+            for (int i = 0; i < nums.length; i++) {
+                if(nums[i] > target){
+                    index = i;
+                    break;
+                }
+            }
+        }
+        if(index == -1){//大于数组中所有的值
+            index = nums.length;
+        }
+        return index;
+    }
+
+    /**
+     * 35. 搜索插入位置
+     * 使用二分查找解决
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int searchInsert2(int[] nums, int target) {
+        int n = nums.length;
+        int left = 0,right = n-1,mid,result=-1;
+        while(left <= right){
+            mid = (left + right) / 2;
+            if(nums[mid] < target){
+               left = mid + 1;
+            }else if(nums[mid] == target){
+                result = mid;
+                break;
+            }else{
+                right = mid -1;
+            }
+        }
+        if(result == -1){
+            return left;
+        }
+        return result;
+    }
+
+    /**
+     * 58. 最后一个单词的长度
+     * @param s
+     * @return
+     */
+    public static int lengthOfLastWord(String s) {
+        String[] split = s.trim().split(" ");
+        String last = "";
+        for (int i = split.length-1; i>=0; i--) {
+            if("".equals(split[i].trim()) ){
+                continue;
+            }else{
+                last = split[i];
+                break;
+            }
+        }
+       return last.length();
+    }
+
+    /**
+     * 2011. 执行操作后的变量值
+     * @param operations
+     * @return
+     */
+    public int finalValueAfterOperations(String[] operations) {
+        int sum = 0;
+        for (int i = 0; i < operations.length; i++) {
+            if(operations[i].contains("-")){
+                sum--;
+            }else if(operations[i].contains("+")){
+                sum++;
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * 1929. 数组串联
+     * @param nums
+     * @return
+     */
+    public int[] getConcatenation(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[2*n];
+        for (int i = 0; i < n; i++) {
+            res[i] = nums[i];
+            res[i+n] = nums[i];
+        }
+        return res;
+    }
+
+    /**
+     * 1920. 基于排列构建数组
+     * @param nums
+     * @return
+     */
+    public int[] buildArray(int[] nums) {
+        int[] res = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            res[i] = nums[nums[i]];
+        }
+        return res;
+    }
 
     public static void main(String[] args) {
 //        int[] cost = new int[]{10,15};
@@ -1020,8 +1138,8 @@ public class InterviewGoldenTest {
 
         System.out.println(addTwoNumbers2(l1,l2));*/
 
-        String s = "abcdddeeeeaabbbcd";
-        System.out.println(largeGroupPositions(s));
+        String s = "   fly me   to   the moon  ";
+        System.out.println(lengthOfLastWord(s));
     }
 
 

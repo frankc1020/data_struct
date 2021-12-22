@@ -139,11 +139,46 @@ public class InterviewGoldenTestThree {
         preOrder(node.left,curSum);
         preOrder(node.right,curSum);
     }
+
+    /**
+     * 100. 相同的树
+     * @param p
+     * @param q
+     * @return
+     */
+    public static boolean isSameTree(TreeNode p, TreeNode q) {
+        /*if(p == null && q == null){
+            return true;
+        }*/
+        preorderTraversal(p);
+        int num1 = res.size();
+        preorderTraversal(q);
+        int num2 = res.size()-num1;
+        if(num1 != num2){
+            return false;
+        }
+
+        for (int i = 0; i <num1 ; i++) {
+            if(res.get(i) != res.get(i+num1)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 
         TreeNode treeNode2 = new TreeNode(2);
-        TreeNode root = new TreeNode(1,treeNode2,null);
-        System.out.println(preorderTraversal(root));
+        TreeNode treeNode3 = new TreeNode(1);
+        TreeNode root = new TreeNode(1,treeNode2,treeNode3);
+
+        TreeNode treeNode4 = new TreeNode(1);
+        TreeNode treeNode5 = new TreeNode(2);
+        TreeNode root1 = new TreeNode(1,treeNode4,treeNode5);
+        TreeNode root3 = null;
+        TreeNode root4 = null;
+
+        isSameTree(root3,root4);
 
     }
 
