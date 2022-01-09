@@ -1,6 +1,7 @@
 package com.y3.javaAndAssignModel.java8;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.io.PrintStream;
 import java.util.Comparator;

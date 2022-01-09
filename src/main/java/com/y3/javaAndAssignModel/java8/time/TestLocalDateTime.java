@@ -1,10 +1,10 @@
 package com.y3.javaAndAssignModel.java8.time;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.time.*;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 
 /**
  * @author admin

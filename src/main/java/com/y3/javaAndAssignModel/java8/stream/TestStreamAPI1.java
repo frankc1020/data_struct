@@ -1,7 +1,7 @@
 package com.y3.javaAndAssignModel.java8.stream;
 
 import com.y3.javaAndAssignModel.java8.Employee;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;

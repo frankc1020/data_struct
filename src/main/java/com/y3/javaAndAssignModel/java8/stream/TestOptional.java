@@ -4,7 +4,7 @@ import com.y3.javaAndAssignModel.java8.Employee;
 import com.y3.javaAndAssignModel.java8.Godness;
 import com.y3.javaAndAssignModel.java8.Man;
 import com.y3.javaAndAssignModel.java8.NewMan;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 

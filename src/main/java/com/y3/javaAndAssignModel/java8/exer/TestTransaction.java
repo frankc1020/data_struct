@@ -1,7 +1,7 @@
 package com.y3.javaAndAssignModel.java8.exer;
 
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public class TestTransaction {
 
     List<Transaction> transactions = null;
 
-    @Before
+//    @Before
     public void before(){
         Trader raoul = new Trader("Raoul", "Cambridge");
         Trader mario = new Trader("Mario", "Milan");
